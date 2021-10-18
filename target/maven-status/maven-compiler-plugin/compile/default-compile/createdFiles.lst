@@ -1,0 +1,7 @@
+com/mycompany/projectz/daos/ICategoryDao.class
+com/mycompany/projectz/daos/ProductDao.class
+com/mycompany/projectz/models/Product.class
+com/mycompany/projectz/models/Category.class
+com/mycompany/projectz/daos/AbstractDao.class
+com/mycompany/projectz/daos/CategoryDao.class
+com/mycompany/projectz/daos/IProductDao.class
