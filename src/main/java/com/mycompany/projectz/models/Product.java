@@ -26,6 +26,7 @@ public class Product {
         this.setBrand(brand);
         this.setImageLink(imageLink);
         this.setImage(image);
+        this.setCategory(category);
     }
     public Product(int id, String name, String description, double price, String brand, String imageLink, byte[] image, Category category){
         this(name, description, price, brand, imageLink, image, category);
@@ -128,5 +129,19 @@ public class Product {
      */
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    /**
+     * @return the category
+     */
+    public Category getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
