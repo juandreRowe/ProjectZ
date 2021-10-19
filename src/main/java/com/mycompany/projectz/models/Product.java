@@ -15,21 +15,19 @@ public class Product {
     private double price;
     private String brand;
     private String imageLink;
-    private byte[] image;
     private Category category;
 
     public Product(){}
-    public Product(String name, String description, double price, String brand, String imageLink, byte[] image, Category category){
+    public Product(String name, String description, double price, String brand, String imageLink, Category category){
         this.setName(name);
         this.setDescription(description);
         this.setPrice(price);
         this.setBrand(brand);
         this.setImageLink(imageLink);
-        this.setImage(image);
         this.setCategory(category);
     }
-    public Product(int id, String name, String description, double price, String brand, String imageLink, byte[] image, Category category){
-        this(name, description, price, brand, imageLink, image, category);
+    public Product(int id, String name, String description, double price, String brand, String imageLink, Category category){
+        this(name, description, price, brand, imageLink, category);
         this.setId(id);
     }
 
@@ -115,20 +113,6 @@ public class Product {
      */
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
-    }
-
-    /**
-     * @return the image
-     */
-    public byte[] getImage() {
-        return image;
-    }
-
-    /**
-     * @param image the image to set
-     */
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     /**

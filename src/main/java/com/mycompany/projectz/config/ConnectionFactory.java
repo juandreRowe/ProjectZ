@@ -25,7 +25,7 @@ public class ConnectionFactory {
             Properties properties = new Properties();
             try{
                 properties.load(new FileReader("/home/juandre/NetBeansProjects/ProjectZ/src/main/java/com/mycompany/projectz/config/config.properties"));
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection(properties.getProperty("url"), properties);
             }catch(ClassNotFoundException | SQLException | IOException ex){
                 System.err.println(ex.getMessage());
