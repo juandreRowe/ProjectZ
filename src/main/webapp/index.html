@@ -6,5 +6,34 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <button onclick="makeCall()">Click me</button>
+        <ul id="categories">
+            
+        </ul>
+        <script>
+            function makeCall(){
+                let request = new XMLHttpRequest();
+                request.open("GET", "http://localhost:8080/ProjectZ/service/category/getAllCategories");
+                request.send();
+                request.onload = () => {
+                    console.log(request);
+                    if(request.status >= 200 && request.status < 206){
+                        console.log(JSON.parse(request.response));
+                        displayCategories(JSON.parse(request.response));
+                    }else{
+                        console.log("error: " + request.status + ", " + request.statusText);
+                    }
+                };
+            }
+            
+            function displayCategories(items){
+                const ul = document.getElementById("categories");
+                for(var x = 0; x < items.length; x++){
+                    var li = document.createElement("li");
+                    li.innerHTML = items[x].name;
+                    ul.appendChild(li);
+                }
+            }
+        </script>
     </body>
 </html>
