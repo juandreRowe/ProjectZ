@@ -6,33 +6,90 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <button onclick="makeCall()">Click me</button>
         <ul id="categories">
             
         </ul>
+        <ol id="products">
+            
+        </ol>
         <script>
-            function makeCall(){
-                let request = new XMLHttpRequest();
-                request.open("GET", "http://localhost:8080/ProjectZ/service/category/getAllCategories");
-                request.send();
-                request.onload = () => {
-                    console.log(request);
-                    if(request.status >= 200 && request.status < 206){
-                        console.log(JSON.parse(request.response));
-                        displayCategories(JSON.parse(request.response));
-                    }else{
-                        console.log("error: " + request.status + ", " + request.statusText);
+            var baseUrl = "http://localhost:8080/ProjectZ/service/";       
+            window.onload = () => {
+                console.log(document.readyState);
+                var categoriesRequest = makeCall(baseUrl + "category/getAllCategories");
+
+                categoriesRequest.onreadystatechange = () => {
+                    if(categoriesRequest.status === 200 && categoriesRequest.readyState === 4){
+                        console.log(categoriesRequest);
+                        try{
+                            displayCategories(JSON.parse(categoriesRequest.response));
+                        }catch(e){
+                            console.log(e);
+                        }
                     }
                 };
+
+                var productsRequest = makeCall(baseUrl + "product/getAllProducts");
+
+                productsRequest.onreadystatechange = () => {
+                    if(productsRequest.status === 200 && productsRequest.readyState === 4){
+                        console.log(productsRequest);
+                        try{
+                            displayProducts(JSON.parse(productsRequest.response));
+                        }catch(e){
+                            console.log(e);
+                        }
+                    }
+                };  
+            };
+            
+                   
+            
+            function makeCall(endpoint){
+                let request = new XMLHttpRequest();
+                request.open("GET", endpoint);
+                request.send();
+                return request;
             }
             
             function displayCategories(items){
+                console.log(items.length);
                 const ul = document.getElementById("categories");
                 for(var x = 0; x < items.length; x++){
                     var li = document.createElement("li");
-                    li.innerHTML = items[x].name;
+                    var btn = document.createElement("button");
+                    btn.textContent = items[x].name;
+                    btn.setAttribute("onclick", "filter(" + items[x].id + ");");
+                    li.appendChild(btn);
                     ul.appendChild(li);
                 }
+            }
+            
+            function displayProducts(products){
+                const ol = document.getElementById("products");
+                ol.innerHTML = "";
+                for(var x = 0; x < products.length; x++){
+                    var li = document.createElement("li");
+                    li.innerHTML = products[x].name;
+                    li.innerHTML += " R" + products[x].price;
+                    ol.appendChild(li);
+                }
+            }
+            
+            function filter(categoryId){
+                console.log("filter: " + categoryId);
+                let request = new XMLHttpRequest();
+                request.open("GET", baseUrl + "product/category/" + categoryId);
+                request.send();
+                request.onreadystatechange = () => {
+                    if(request.status === 200 && request.readyState === 4){
+                        try{
+                            displayProducts(JSON.parse(request.response));
+                        }catch(e){
+                            console.log(e);
+                        }
+                    }
+                };
             }
         </script>
     </body>

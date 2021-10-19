@@ -44,27 +44,31 @@ public abstract class AbstractDao<T> {
 
     public List<T> selectStatement(String query, Object... params){
          List<T> elements = new ArrayList<>();
-         prepareStatement(query, params);
-         try{
-            resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                elements.add(this.extractFromResultSet());
+         if(connection != null){
+            prepareStatement(query, params);
+            try{
+                resultSet = preparedStatement.executeQuery();
+                while(resultSet.next()){
+                    elements.add(this.extractFromResultSet());
+                }
+                this.closeCloseable(resultSet);
+                this.closeCloseable(preparedStatement);
+            }catch(SQLException ex){
+                System.err.println(ex.getMessage());
             }
-            this.closeCloseable(resultSet);
-            this.closeCloseable(preparedStatement);
-        }catch(SQLException ex){
-            System.err.println(ex.getMessage());
-        }
-         return elements;
+         }
+        return elements;
     }
 
     public boolean modifyStatement(String query, Object... params){
         int rowsAffected = -5;
-        this.prepareStatement(query, params);
-        try{
-            rowsAffected = preparedStatement.executeUpdate();
-        }catch(SQLException ex){
-            System.err.println(ex.getMessage());
+        if(connection != null){
+            this.prepareStatement(query, params);
+            try{
+                rowsAffected = preparedStatement.executeUpdate();
+            }catch(SQLException ex){
+                System.err.println(ex.getMessage());
+            }
         }
         return rowsAffected == 1;
     }
